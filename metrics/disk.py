@@ -9,7 +9,7 @@ def _get_mount_points():
             parts = line.split()
             if len(parts) >= 2:
                 device, mountpoint = parts[0], parts[1]
-                if not device.startswith("tmpfs") and not device.startswith("proc") and not device.startswith("sys"):
+                if not device.startswith("tmpfs") and not device.startswith("proc") and not device.startswith("sys") and not mountpoint.startswith("/run/user"):
                     mounts.append((device, mountpoint))
     except Exception:
         pass
