@@ -3,3 +3,101 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 20px;
+    margin: 0;
+    border-bottom: 4px solid #1abc9c;
+}
+
+h2 {
+    background-color: #1abc9c;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 30px 0 10px;
+    font-size: 1.3em;
+}
+
+body > ul, body > div, .content {
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 15px;
+}
+
+li {
+    margin: 5px 0;
+    padding: 6px 10px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+li:hover {
+    background-color: #f9f9f9;
+    border-left: 3px solid #1abc9c;
+}
+
+strong {
+    color: #2c3e50;
+}
+
+code, pre {
+    background-color: #ecf0f1;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+ul ul {
+    margin-left: 20px;
+    border-left: 2px dashed #ccc;
+    padding-left: 15px;
+}
+
+.error, li:has(> strong:contains("Erreur")) {
+    background-color: #ffecec;
+    border-left: 3px solid #e74c3c;
+    color: #c0392b;
+}
+
+footer {
+    text-align: center;
+    margin: 40px 0 10px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+@media (max-width: 700px) {
+    body > ul, body > div, .content {
+        width: 90%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.1em;
+    }
+}
