@@ -1,5 +1,4 @@
 from pathlib import Path
-import subprocess
 
 def _get_mount_points():
     mounts = []
@@ -9,6 +8,7 @@ def _get_mount_points():
             parts = line.split()
             if len(parts) >= 2:
                 device, mountpoint = parts[0], parts[1]
+                # On ignore les systèmes virtuels type tmpfs, proc, sysfs
                 if not device.startswith("tmpfs") and not device.startswith("proc") and not device.startswith("sys"):
                     mounts.append((device, mountpoint))
     except Exception:
@@ -17,20 +17,17 @@ def _get_mount_points():
 
 def _get_disk_usage(path):
     try:
-        result = subprocess.run(["df", "-B1", path], capture_output=True, text=True, check=True)
-        lines = result.stdout.strip().splitlines()
-        if len(lines) >= 2:
-            parts = lines[1].split()
-            total = int(parts[1])
-            used = int(parts[2])
-            free = int(parts[3])
-            percent = parts[4]
-            return {
-                "total": f"{total / (1024**3):.2f} Go",
-                "utilisé": f"{used / (1024**3):.2f} Go",
-                "libre": f"{free / (1024**3):.2f} Go",
-                "utilisation": percent
-            }
+        stat = Path(path).statvfs()
+        total = stat.f_blocks * stat.f_frsize
+        free = stat.f_bfree * stat.f_frsize
+        used = total - free
+        percent = (used / total) * 100 if total > 0 else 0
+        return {
+            "total": f"{total / (1024**3):.2f} Go",
+            "utilisé": f"{used / (1024**3):.2f} Go",
+            "libre": f"{free / (1024**3):.2f} Go",
+            "utilisation": f"{percent:.1f}%",
+        }
     except Exception as e:
         return {"Erreur": str(e)}
 
