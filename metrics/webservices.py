@@ -1,5 +1,4 @@
 import http.client
-import ssl
 from html.parser import HTMLParser
 
 class TitleParser(HTMLParser):
@@ -21,12 +20,11 @@ class TitleParser(HTMLParser):
             self.title += data.strip()
 
 
-def fetch_http_info(host="localhost", port=80, use_https=False):
+def fetch_http_info(host, port):
     info = {}
     try:
-        conn_cls = http.client.HTTPSConnection if use_https else http.client.HTTPConnection
-        context = ssl._create_unverified_context() if use_https else None
-        conn = conn_cls(host, port, timeout=3, context=context)
+        conn_cls = http.client.HTTPConnection
+        conn = conn_cls(host, port, timeout=3)
         conn.request("GET", "/")
         resp = conn.getresponse()
 
@@ -55,10 +53,10 @@ def fetch_http_info(host="localhost", port=80, use_https=False):
 
 def get_web_services(targets=None):
     if targets is None:
-        targets = [("localhost", 80, False), ("localhost", 443, True)]
+        targets = [("localhost", 80), ("localhost", 443)]
 
     results = {}
-    for host, port, secure in targets:
-        key = f"http{'s' if secure else ''}://{host}:{port}"
-        results[key] = fetch_http_info(host, port, secure)
+    for host, port in targets:
+        key = f"http://{host}:{port}"
+        results[key] = fetch_http_info(host, port)
     return results
