@@ -6,7 +6,6 @@ from report.generator import generate_html_report
 from gui.dashboard import launch_gui
 from metrics import system, hardware, memory, disk, process, network, webservices
 
-
 def collect_metrics(selected_metrics):
     all_data = {}
 
@@ -36,7 +35,7 @@ def collect_metrics(selected_metrics):
 
     try:
         if "process" in selected_metrics or "all" in selected_metrics:
-            all_data["process"] = process.get_process_info()
+            all_data["process"] = process.get_cpu_info()
     except Exception as e:
         all_data["process"] = {"Erreur": str(e)}
 
@@ -48,15 +47,13 @@ def collect_metrics(selected_metrics):
 
     try:
         if "webservices" in selected_metrics or "all" in selected_metrics:
-            all_data["webservices"] = webservices.get_web_services_info()
+            all_data["webservices"] = webservices.get_web_services()
     except Exception as e:
         all_data["webservices"] = {"Erreur": str(e)}
 
     return all_data
 
-
 def parse_arguments():
-    """Analyse les arguments de la ligne de commande."""
     parser = argparse.ArgumentParser(
         description="Générateur de rapport système Linux"
     )
@@ -83,7 +80,6 @@ def parse_arguments():
     )
     return parser.parse_args()
 
-
 def main():
     args = parse_arguments()
 
@@ -106,7 +102,6 @@ def main():
     except Exception as e:
         print(f"Erreur lors de la génération du rapport : {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()
