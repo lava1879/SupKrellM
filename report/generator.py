@@ -46,13 +46,10 @@ def generate_html_report(selected_metrics, output_path):
         if "network" in selected_metrics or "all" in selected_metrics:
             data["Réseau"] = network.get_network_info()
             data["Passerelle par défaut"] = network.get_default_gateway()
+        if "webservices" in selected_metrics or "all" in selected_metrics:
+             data["Web Services"] = webservices.get_web_services()
     except Exception as e:
         data["Erreur générale"] = str(e)
-
-    try:
-        data["Web Services"] = webservices.get_web_services()
-    except Exception as e:
-        data["Web Services"] = {"Erreur": str(e)}
 
     template_path = Path(__file__).parent / "template.html"
     try:
