@@ -1,6 +1,6 @@
 from pathlib import Path
 import datetime
-from metrics import system, hardware, disk, process, network, webservices
+from metrics import system, hardware, disk, memory, process, network, webservices
 
 def _dict_to_html(title, data):
     html = f"<h2>{title}</h2>\n<ul>"
@@ -28,7 +28,6 @@ def _dict_to_html(title, data):
     html += "</ul>"
     return html
 
-
 def generate_html_report(selected_metrics, output_path):
     data = {}
 
@@ -39,6 +38,8 @@ def generate_html_report(selected_metrics, output_path):
             data["Matériel"] = hardware.get_hardware_info()
         if "disk" in selected_metrics or "all" in selected_metrics:
             data["Disques"] = disk.get_disk_info()
+        if "memory" in selected_metrics or "all" in selected_metrics:
+            data["Mémoire"] = memory.get_memory_info()
         if "process" in selected_metrics or "all" in selected_metrics:
             data["CPU"] = process.get_cpu_info()
             data["Processus"] = process.get_process_list()
