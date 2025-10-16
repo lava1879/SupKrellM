@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 def _get_thermal_zones():
     temps = {}
     base = Path("/sys/class/thermal")
@@ -33,7 +32,6 @@ def _get_thermal_zones():
 
     return temps if temps else None
 
-
 def _get_power_supply():
     power = {}
     base = Path("/sys/class/power_supply")
@@ -60,7 +58,6 @@ def _get_power_supply():
             power[name] = f"Erreur : {e}"
 
     return power
-
 
 def get_hardware_info():
     data = {}

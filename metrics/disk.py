@@ -1,7 +1,6 @@
 from pathlib import Path
 import subprocess
 
-
 def _get_mount_points():
     mounts = []
     try:
@@ -28,7 +27,6 @@ def _get_mount_points():
         pass
     return mounts
 
-
 def _get_disk_usage(path):
     try:
         result = subprocess.run(
@@ -49,7 +47,6 @@ def _get_disk_usage(path):
             }
     except Exception as e:
         return {"Erreur": str(e)}
-
 
 def get_disk_info():
     info = {}
