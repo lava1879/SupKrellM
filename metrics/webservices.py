@@ -20,20 +20,20 @@ class TitleParser(HTMLParser):
         if self.in_title:
             self.title += data.strip()
 
-def fetch():
-    host = "www.google.com"
-    port = 443
-    info = {}
 
+def fetch_http_info(host="localhost", port=80, use_https=False):
+    info = {}
     try:
-        context = ssl._create_unverified_context()
-        conn = http.client.HTTPSConnection(host, port, timeout=5, context=context)
+        conn_cls = http.client.HTTPSConnection if use_https else http.client.HTTPConnection
+        context = ssl._create_unverified_context() if use_https else None
+        conn = conn_cls(host, port, timeout=3, context=context)
         conn.request("GET", "/")
         resp = conn.getresponse()
+
         info["statut"] = f"{resp.status} {resp.reason}"
         info["serveur"] = resp.getheader("Server", "Inconnu")
-
         body = resp.read(4096).decode(errors="ignore")
+
         parser = TitleParser()
         parser.feed(body)
         info["titre"] = parser.title or "Aucun titre détecté"
@@ -50,8 +50,15 @@ def fetch():
             conn.close()
         except Exception:
             pass
+    return info
 
-    return {f"https://{host}": info}
 
-def get_web_services():
-    return fetch()
+def get_web_services(targets=None):
+    if targets is None:
+        targets = [("localhost", 80, False), ("localhost", 443, True)]
+
+    results = {}
+    for host, port, secure in targets:
+        key = f"http{'s' if secure else ''}://{host}:{port}"
+        results[key] = fetch_http_info(host, port, secure)
+    return results
