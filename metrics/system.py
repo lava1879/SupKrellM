@@ -6,21 +6,21 @@ def get_system_info():
 
     try:
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        info["date_heure"] = now
+        info["Date et heure"] = now
     except Exception as e:
-        info["date_heure"] = f"Erreur : {e}"
+        info["Date et heure"] = f"Erreur : {e}"
 
     try:
         hostname = Path("/proc/sys/kernel/hostname").read_text().strip()
-        info["hostname"] = hostname
+        info["Nom d'hôte"] = hostname
     except Exception as e:
-        info["hostname"] = f"Erreur : {e}"
+        info["Nom d'hôte"] = f"Erreur : {e}"
 
     try:
         kernel = Path("/proc/version").read_text().strip()
-        info["kernel_version"] = kernel
+        info["Version du noyau"] = kernel
     except Exception as e:
-        info["kernel_version"] = f"Erreur : {e}"
+        info["Version du noyau"] = f"Erreur : {e}"
 
     try:
         uptime_data = Path("/proc/uptime").read_text().split()[0]
@@ -28,8 +28,8 @@ def get_system_info():
         days = int(total_seconds // 86400)
         hours = int((total_seconds % 86400) // 3600)
         minutes = int((total_seconds % 3600) // 60)
-        info["uptime"] = f"{days}j {hours}h {minutes}m"
+        info["Durée de fonctionnement"] = f"{days}j {hours}h {minutes}m"
     except Exception as e:
-        info["uptime"] = f"Erreur : {e}"
+        info["Durée de fonctionnement"] = f"Erreur : {e}"
 
     return info
