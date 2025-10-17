@@ -34,6 +34,7 @@ def get_memory_info():
         free = _to_mib(meminfo.get("MemFree", "0 kB").split()[0])
         available = _to_mib(meminfo.get("MemAvailable", "0 kB").split()[0])
         used = total - available
+        used_str = f"{used:.2f}"
         used_percent = round((used / total) * 100, 1) if total > 0 else 0
 
         swap_total = _to_mib(meminfo.get("SwapTotal", "0 kB").split()[0])
@@ -43,7 +44,7 @@ def get_memory_info():
 
         return {
             "Mémoire totale": f"{total} Mio",
-            "Mémoire utilisée": f"{used} Mio ({used_percent}%)",
+            "Mémoire utilisée": f"{used_str} Mio ({used_percent}%)",
             "Mémoire libre": f"{free} Mio",
             "Mémoire disponible": f"{available} Mio",
             "Swap total": f"{swap_total} Mio",
