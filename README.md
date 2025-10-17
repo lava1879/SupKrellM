@@ -5,7 +5,7 @@ Script de surveillance système permettant de générer un rapport HTML détaill
 
 ## Télécharger 
 
-[Télécharger le programme](https://github.com/lava1879/projet-semestriel1-supinfo/releases/latest/download/)
+[Télécharger le programme](https://github.com/lava1879/projet-semestriel1-supinfo/releases/download/v0.1.0-alpha/SupKrellM-v0.1.0-alpha.zip)
 
 ## Configuration matérielle requise
  | Configuration matérielle minimale*|Recommendée
@@ -20,9 +20,15 @@ Disque (Stockage)|5 Mo vide|100 Mo vide
 Les autres systèmes d'exploitation (par example, Windows) ne sont pas pris en charge.
 
 ## Arguments de la ligne de commande
- Argument*|Fonctionnalité
+ Argument|Fonctionnalité
 ----|----
 --metrics|Liste des métriques à inclure (system, hardware, memory, disk, process, network, webservices ou all).
 --output|Nom du fichier HTML de sortie (par défaut : rapport.html)
 --dest|Dossier de destination (par défaut : répertoire courant)
 --gui|Lance le mode interface graphique en temps réel
+
+## Installation
+
+1. Obtenez le code source soit en [téléchargeant le zip](https://github.com/rcmaehl/WhyNotWin11/archive/main.zip), soit en faisant `git clone https://github.com/lava1879/projet-semestriel1-supinfo`.
+1. Ouvrez le dossier contenant le code source (ou extraire le zip téléchargé et ouvrer le dossier), puis ouvrez le répertoire du programme dans un terminal.
+1. Tapez dans le terminal `python3 main.py` pour exécuter le programme et générer la page HTML contenant le rapport système (situé par défaut à la racine du répertoire).
