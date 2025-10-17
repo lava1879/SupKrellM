@@ -42,13 +42,13 @@ def get_memory_info():
         swap_percent = round((swap_used / swap_total) * 100, 1) if swap_total > 0 else 0
 
         return {
-            "Mémoire totale": f"{total} MiB",
-            "Mémoire utilisée": f"{used} MiB ({used_percent}%)",
-            "Mémoire libre": f"{free} MiB",
-            "Mémoire disponible": f"{available} MiB",
-            "Swap total": f"{swap_total} MiB",
-            "Swap utilisé": f"{swap_used} MiB ({swap_percent}%)",
-            "Swap libre": f"{swap_free} MiB",
+            "Mémoire totale": f"{total} Mio",
+            "Mémoire utilisée": f"{used} Mio ({used_percent}%)",
+            "Mémoire libre": f"{free} Mio",
+            "Mémoire disponible": f"{available} Mio",
+            "Swap total": f"{swap_total} Mio",
+            "Swap utilisé": f"{swap_used} Mio ({swap_percent}%)",
+            "Swap libre": f"{swap_free} Mio",
         }
     except Exception as e:
         return {"Erreur": f"Échec du calcul de la mémoire : {e}"}
