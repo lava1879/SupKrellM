@@ -23,34 +23,10 @@ class SystemDashboard:
         style.theme_use("clam")
 
         style.configure(
-            "Header.TLabel",
-            background="#2c3e50",
-            foreground="#ffffff",
-            font=("Epunda Sans Light", 16, "bold"),
-            padding=10,
-        )
-
-        style.configure(
             "Section.TLabel",
             background="#1abc9c",
             foreground="#ffffff",
-            font=("Epunda Sans Light", 12, "bold"),
-            padding=5,
-        )
-
-        style.configure(
-            "Info.TLabel",
-            background="#ffffff",
-            foreground="#333333",
-            font=("Epunda Sans Light", 10),
-            padding=5,
-        )
-
-        style.configure(
-            "Time.TLabel",
-            background="#f4f6f8",
-            foreground="#333333",
-            font=("Epunda Sans Light", 11),
+            font=("Epunda Sans", 12, "bold"),
             padding=5,
         )
 
@@ -64,7 +40,7 @@ class SystemDashboard:
             text="Rapport Système - Temps Réel",
             bg="#2c3e50",
             fg="#ffffff",
-            font=("Epunda Sans Light", 18, "bold"),
+            font=("Epunda Sans", 18, "bold"),
         )
         header_label.pack(pady=15)
 
@@ -73,7 +49,7 @@ class SystemDashboard:
             text="",
             bg="#f4f6f8",
             fg="#333333",
-            font=("Epunda Sans Light", 11),
+            font=("Epunda Sans", 11),
         )
         self.time_label.pack(pady=5)
 
@@ -101,24 +77,31 @@ class SystemDashboard:
 
     def create_metric_sections(self):
         self.sections = {}
+        section_names = [
+            "system",
+            "hardware",
+            "disk",
+            "memory",
+            "cpu",
+            "process",
+            "network",
+            "passerelle",
+            "webservices",
+        ]
+        section_titles = [
+            "Système",
+            "Matériel",
+            "Disques",
+            "Mémoire",
+            "CPU",
+            "Processus (Top 5)",
+            "Réseau",
+            "Passerelle par défaut",
+            "Web Services",
+        ]
 
-        self.sections["system"] = self.create_section("Système")
-
-        self.sections["hardware"] = self.create_section("Matériel")
-
-        self.sections["disk"] = self.create_section("Disques")
-
-        self.sections["memory"] = self.create_section("Mémoire")
-
-        self.sections["cpu"] = self.create_section("CPU")
-
-        self.sections["process"] = self.create_section("Processus (Top 5)")
-
-        self.sections["network"] = self.create_section("Réseau")
-
-        self.sections["passerelle"] = self.create_section("Passerelle par défaut")
-
-        self.sections["webservices"] = self.create_section("Web Services")
+        for name, title in zip(section_names, section_titles):
+            self.sections[name] = self.create_section(title)
 
     def create_section(self, title):
         section_frame = tk.Frame(
@@ -131,7 +114,7 @@ class SystemDashboard:
             text=title,
             bg="#1abc9c",
             fg="#ffffff",
-            font=("Epunda Sans Light", 12, "bold"),
+            font=("Epunda Sans", 12, "bold"),
             anchor="center",
         )
         header.pack(fill=tk.X, pady=(0, 5))
@@ -139,41 +122,50 @@ class SystemDashboard:
         content = tk.Frame(section_frame, bg="#ffffff")
         content.pack(fill=tk.BOTH, expand=True, padx=15, pady=10)
 
-        return {"frame": section_frame, "header": header, "content": content}
+        return {"content": content, "widgets": []}
 
     def clear_section(self, section_name):
-        content_frame = self.sections[section_name]["content"]
-        for widget in content_frame.winfo_children():
+        section = self.sections[section_name]
+        for widget in section["widgets"]:
             widget.destroy()
+        section["widgets"].clear()
 
     def add_info_line(self, parent, key, value, is_error=False):
-        line_frame = tk.Frame(parent, bg="#ffffff" if not is_error else "#ffecec")
+        bg_color = "#ffecec" if is_error else "#ffffff"
+        fg_color = "#c0392b" if is_error else "#333333"
+        key_color = "#c0392b" if is_error else "#1abc9c"
+
+        line_frame = tk.Frame(parent, bg=bg_color)
         line_frame.pack(fill=tk.X, pady=2)
 
-        key_label = tk.Label(
-            line_frame,
-            text=f"{key}:",
-            bg="#ffffff" if not is_error else "#ffecec",
-            fg="#1abc9c" if not is_error else "#c0392b",
-            font=("Epunda Sans Light", 10, "bold"),
-            anchor="w",
-        )
-        key_label.pack(side=tk.LEFT, padx=(5, 10))
+        if key:
+            key_label = tk.Label(
+                line_frame,
+                text=f"{key}:",
+                bg=bg_color,
+                fg=key_color,
+                font=("Epunda Sans", 10, "bold"),
+                anchor="w",
+            )
+            key_label.pack(side=tk.LEFT, padx=(5, 10))
 
         value_label = tk.Label(
             line_frame,
             text=str(value),
-            bg="#ffffff" if not is_error else "#ffecec",
-            fg="#333333" if not is_error else "#c0392b",
-            font=("Epunda Sans Light", 10),
+            bg=bg_color,
+            fg=fg_color,
+            font=("Epunda Sans", 10),
             anchor="w",
             wraplength=800,
         )
         value_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
+        return line_frame
+
     def update_section(self, section_name, data):
         self.clear_section(section_name)
-        content_frame = self.sections[section_name]["content"]
+        section = self.sections[section_name]
+        content_frame = section["content"]
 
         if isinstance(data, dict):
             for key, value in data.items():
@@ -184,13 +176,14 @@ class SystemDashboard:
                         content_frame, bg="#f9f9f9", relief=tk.GROOVE, borderwidth=1
                     )
                     sub_frame.pack(fill=tk.X, pady=5)
+                    section["widgets"].append(sub_frame)
 
                     sub_header = tk.Label(
                         sub_frame,
                         text=key,
                         bg="#e8f5f2",
                         fg="#1abc9c",
-                        font=("Epunda Sans Light", 10, "bold"),
+                        font=("Epunda Sans", 10, "bold"),
                     )
                     sub_header.pack(fill=tk.X, padx=5, pady=2)
 
@@ -202,13 +195,14 @@ class SystemDashboard:
                         content_frame, bg="#f9f9f9", relief=tk.GROOVE, borderwidth=1
                     )
                     sub_frame.pack(fill=tk.X, pady=5)
+                    section["widgets"].append(sub_frame)
 
                     sub_header = tk.Label(
                         sub_frame,
                         text=key,
                         bg="#e8f5f2",
                         fg="#1abc9c",
-                        font=("Epunda Sans Light", 10, "bold"),
+                        font=("Epunda Sans", 10, "bold"),
                     )
                     sub_header.pack(fill=tk.X, padx=5, pady=2)
 
@@ -225,65 +219,39 @@ class SystemDashboard:
                         else:
                             self.add_info_line(sub_frame, "", item, False)
                 else:
-                    self.add_info_line(content_frame, key, value, is_error)
+                    widget = self.add_info_line(content_frame, key, value, is_error)
+                    section["widgets"].append(widget)
         else:
             label = tk.Label(
                 content_frame,
                 text=str(data),
                 bg="#ffffff",
                 fg="#333333",
-                font=("Epunda Sans Light", 10),
+                font=("Epunda Sans", 10),
                 wraplength=800,
             )
             label.pack(fill=tk.X, pady=2)
+            section["widgets"].append(label)
 
     def collect_all_metrics(self):
         metrics = {}
+        collectors = [
+            ("system", system.get_system_info),
+            ("hardware", hardware.get_hardware_info),
+            ("memory", memory.get_memory_info),
+            ("disk", disk.get_disk_info),
+            ("cpu", process.get_cpu_info),
+            ("process", lambda: process.get_process_list(limit=5)),
+            ("network", network.get_network_info),
+            ("passerelle", network.get_default_gateway),
+            ("webservices", webservices.get_web_services),
+        ]
 
-        try:
-            metrics["system"] = system.get_system_info()
-        except Exception as e:
-            metrics["system"] = {"Erreur": str(e)}
-
-        try:
-            metrics["hardware"] = hardware.get_hardware_info()
-        except Exception as e:
-            metrics["hardware"] = {"Erreur": str(e)}
-
-        try:
-            metrics["memory"] = memory.get_memory_info()
-        except Exception as e:
-            metrics["memory"] = {"Erreur": str(e)}
-
-        try:
-            metrics["disk"] = disk.get_disk_info()
-        except Exception as e:
-            metrics["disk"] = {"Erreur": str(e)}
-
-        try:
-            metrics["cpu"] = process.get_cpu_info()
-        except Exception as e:
-            metrics["cpu"] = {"Erreur": str(e)}
-
-        try:
-            metrics["process"] = process.get_process_list(limit=5)
-        except Exception as e:
-            metrics["process"] = {"Erreur": str(e)}
-
-        try:
-            metrics["network"] = network.get_network_info()
-        except Exception as e:
-            metrics["network"] = {"Erreur": str(e)}
-            
-        try:
-            metrics["passerelle"] = network.get_default_gateway()
-        except Exception as e:
-            metrics["passerelle"] = {"Erreur": str(e)}
-
-        try:
-            metrics["webservices"] = webservices.get_web_services()
-        except Exception as e:
-            metrics["webservices"] = {"Erreur": str(e)}
+        for name, collector in collectors:
+            try:
+                metrics[name] = collector()
+            except Exception as e:
+                metrics[name] = {"Erreur": str(e)}
 
         return metrics
 
@@ -293,23 +261,25 @@ class SystemDashboard:
 
         metrics = self.collect_all_metrics()
 
-        self.update_section("system", metrics["system"])
-        self.update_section("hardware", metrics["hardware"])
-        self.update_section("memory", metrics["memory"])
-        self.update_section("disk", metrics["disk"])
-        self.update_section("cpu", metrics["cpu"])
+        for section in [
+            "system",
+            "hardware",
+            "memory",
+            "disk",
+            "cpu",
+            "network",
+            "passerelle",
+            "webservices",
+        ]:
+            self.update_section(section, metrics[section])
 
         if isinstance(metrics["process"], list):
-            process_dict = {}
-            for i, proc in enumerate(metrics["process"], 1):
-                process_dict[f"Processus {i}"] = proc
+            process_dict = {
+                f"Processus {i}": proc for i, proc in enumerate(metrics["process"], 1)
+            }
             self.update_section("process", process_dict)
         else:
             self.update_section("process", metrics["process"])
-
-        self.update_section("network", metrics["network"])
-        self.update_section("passerelle", metrics["passerelle"])
-        self.update_section("webservices", metrics["webservices"])
 
     def refresh_loop(self):
         while self.running:
