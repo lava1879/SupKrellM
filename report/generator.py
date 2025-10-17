@@ -9,7 +9,7 @@ def _dict_to_html(title, data):
             if isinstance(v, dict):
                 html += f"<li><strong>{k}:</strong><ul>"
                 for kk, vv in v.items():
-                    html += f"<li>{kk} : {vv}</li>"
+                    html += f"<li><strong>{kk} :</strong> {vv}</li>"
                 html += "</ul></li>"
             elif isinstance(v, list):
                 html += f"<li><strong>{k}:</strong><ul>"
