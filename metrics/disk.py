@@ -41,10 +41,10 @@ def _get_disk_usage(path):
             free = int(parts[3])
             percent = parts[4]
             return {
-                "total": f"{total / (1024**3):.2f} Go",
-                "utilisé": f"{used / (1024**3):.2f} Go",
-                "libre": f"{free / (1024**3):.2f} Go",
-                "utilisation": percent,
+                "Total": f"{total / (1024**3):.2f} Go",
+                "Utilisé": f"{used / (1024**3):.2f} Go",
+                "Libre": f"{free / (1024**3):.2f} Go",
+                "Utilisation": percent,
             }
     except Exception as e:
         return {"Erreur": str(e)}

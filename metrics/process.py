@@ -56,7 +56,7 @@ def _read_process_stat(pid):
         utime = int(values[13])
         stime = int(values[14])
         rss = int(values[23]) * 4096 / (1024 ** 2)
-        rss_str = f"{rss:.2f} MB"
+        rss_str = f"{rss:.2f} Mo"
         uid = Path(f"/proc/{pid}/status").read_text().split("Uid:")[1].split()[0]
         user = pwd.getpwuid(int(uid)).pw_name
         return {"PID": pid, "Utilisateur": user, "Nom": name, "Utilisation mémoire": rss_str, "CPU": utime + stime}
