@@ -7,7 +7,7 @@ def _read_cpu_times():
         line = Path("/proc/stat").read_text().splitlines()[0]
         if line.startswith("cpu "):
             parts = list(map(int, line.split()[1:]))
-            user, nice, system, idle = parts[0], parts[1], parts[2], parts[3]
+            user, nice, system = parts[0], parts[1], parts[2]
             total = sum(parts)
             return user + nice + system, total
     except Exception:
@@ -58,7 +58,7 @@ def _read_process_stat(pid):
         rss = int(values[23]) * 4096 / (1024 ** 2)
         uid = Path(f"/proc/{pid}/status").read_text().split("Uid:")[1].split()[0]
         user = pwd.getpwuid(int(uid)).pw_name
-        return {"pid": pid, "utilisateur": user, "nom": name, "rss": rss, "cpu": utime + stime}
+        return {"PID": pid, "Utilisateur": user, "Nom": name, "Utilisation mémoire": rss, "CPU": utime + stime}
     except Exception:
         return None
 
