@@ -15,7 +15,7 @@ Processeur|Processeur monocœur 32 bits|Processur duocœur 64 bits, ou mieux
 RAM (Mémoire)|40 Mo vide|100 Mo vide
 Disque (Stockage)|5 Mo vide|100 Mo vide
 
-\* C'est possible d'utiliser SupKrellM sur la configuration matérielle minimale, mais la température et l'alimentation (et d'autres informations) pourrait ne pas apparaître.
+\* C'est possible d'utiliser SupKrellM sur la configuration matérielle minimale, mais la température et l'alimentation (et peut-être d'autres informations) pourrait ne pas apparaître.
 
 Les autres systèmes d'exploitation (par example, Windows) ne sont pas pris en charge.
 
