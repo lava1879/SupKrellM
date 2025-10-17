@@ -10,7 +10,7 @@ Script de surveillance système permettant de générer un rapport HTML détaill
 ## Configuration matérielle requise
  | Configuration matérielle minimale*|Recommendée
 ----|----|----
-Système d'exploitation|Machine virtuelle contenant une distribution de Linux ou WSL|Ubuntu 25.10
+Système d'exploitation|Machine virtuelle contenant une distribution de Linux, ou WSL|Ubuntu 25.10
 Processeur|Processeur monocœur 32 bits|Processur duocœur 64 bits, ou mieux
 RAM (Mémoire)|40 Mo vide|100 Mo vide
 Disque (Stockage)|5 Mo vide|100 Mo vide
@@ -18,3 +18,11 @@ Disque (Stockage)|5 Mo vide|100 Mo vide
 \* C'est possible d'utiliser SupKrellM sur la configuration matérielle minimale, mais la température et l'alimentation (et d'autres informations) pourrait ne pas apparaître.
 
 Les autres systèmes d'exploitation (par example, Windows) ne sont pas pris en charge.
+
+## Arguments de la ligne de commande
+ Argument*|Fonctionnalité
+----|----
+--metrics|Liste des métriques à inclure (system, hardware, memory, disk, process, network, webservices ou all).
+--output|Nom du fichier HTML de sortie (par défaut : rapport.html)
+--dest|Dossier de destination (par défaut : répertoire courant)
+--gui|Lance le mode interface graphique en temps réel
