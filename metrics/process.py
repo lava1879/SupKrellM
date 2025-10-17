@@ -71,5 +71,5 @@ def get_process_list(limit=5):
             if pinfo:
                 processes.append(pinfo)
 
-    processes.sort(key=lambda p: p["cpu"], reverse=True)
+    processes.sort(key=lambda p: p["CPU"], reverse=True)
     return processes[:limit] if processes else [{"Erreur": "Aucun processus lisible"}]
