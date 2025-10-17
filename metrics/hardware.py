@@ -40,6 +40,8 @@ def _get_power_supply():
         return {"Info": "Aucune information d’alimentation détectée"}
 
     for supply in base.glob("*"):
+        if supply.name.lower().startswith("ac"):
+            continue
         try:
             name = supply.name
             status = ((supply / "status").read_text().strip() if
