@@ -75,6 +75,8 @@ class SystemDashboard:
 
         self.create_metric_sections()
 
+        self.update_display()
+
     def create_metric_sections(self):
         self.sections = {}
         section_names = [
@@ -122,15 +124,221 @@ class SystemDashboard:
         content = tk.Frame(section_frame, bg="#ffffff")
         content.pack(fill=tk.BOTH, expand=True, padx=15, pady=10)
 
-        return {"content": content, "widgets": []}
+        return {"content": content, "widgets": {}, "last_data": None}
 
-    def clear_section(self, section_name):
+    def _data_changed(self, old_data, new_data):
+        return old_data != new_data
+
+    def update_section(self, section_name, data):
         section = self.sections[section_name]
-        for widget in section["widgets"]:
-            widget.destroy()
-        section["widgets"].clear()
 
-    def add_info_line(self, parent, key, value, is_error=False):
+        if not self._data_changed(section["last_data"], data):
+            return
+
+        section["last_data"] = data
+        content_frame = section["content"]
+
+        existing_keys = set(section["widgets"].keys())
+        new_keys = set()
+
+        if isinstance(data, dict):
+            for key, value in data.items():
+                new_keys.add(key)
+                is_error = "Erreur" in key or "erreur" in str(value).lower()
+
+                if isinstance(value, dict):
+
+                    if key in section["widgets"]:
+                        sub_frame = section["widgets"][key]["frame"]
+                        self._update_dict_content(
+                            sub_frame, value, section["widgets"][key]
+                        )
+                    else:
+                        sub_frame = tk.Frame(
+                            content_frame, bg="#f9f9f9", relief=tk.GROOVE, borderwidth=1
+                        )
+                        sub_frame.pack(fill=tk.X, pady=5)
+
+                        sub_header = tk.Label(
+                            sub_frame,
+                            text=key,
+                            bg="#e8f5f2",
+                            fg="#1abc9c",
+                            font=("Epunda Sans", 10, "bold"),
+                        )
+                        sub_header.pack(fill=tk.X, padx=5, pady=2)
+
+                        section["widgets"][key] = {
+                            "frame": sub_frame,
+                            "header": sub_header,
+                            "items": {},
+                        }
+                        self._update_dict_content(
+                            sub_frame, value, section["widgets"][key]
+                        )
+
+                elif isinstance(value, list):
+
+                    if key in section["widgets"]:
+                        sub_frame = section["widgets"][key]["frame"]
+                        self._update_list_content(
+                            sub_frame, value, section["widgets"][key]
+                        )
+                    else:
+                        sub_frame = tk.Frame(
+                            content_frame, bg="#f9f9f9", relief=tk.GROOVE, borderwidth=1
+                        )
+                        sub_frame.pack(fill=tk.X, pady=5)
+
+                        sub_header = tk.Label(
+                            sub_frame,
+                            text=key,
+                            bg="#e8f5f2",
+                            fg="#1abc9c",
+                            font=("Epunda Sans", 10, "bold"),
+                        )
+                        sub_header.pack(fill=tk.X, padx=5, pady=2)
+
+                        section["widgets"][key] = {
+                            "frame": sub_frame,
+                            "header": sub_header,
+                            "items": [],
+                        }
+                        self._update_list_content(
+                            sub_frame, value, section["widgets"][key]
+                        )
+
+                else:
+
+                    if key in section["widgets"]:
+                        widget_info = section["widgets"][key]
+                        widget_info["value_label"].config(text=str(value))
+
+                        bg_color = "#ffecec" if is_error else "#ffffff"
+                        fg_color = "#c0392b" if is_error else "#333333"
+                        key_color = "#c0392b" if is_error else "#1abc9c"
+
+                        widget_info["frame"].config(bg=bg_color)
+                        if widget_info["key_label"]:
+                            widget_info["key_label"].config(bg=bg_color, fg=key_color)
+                        widget_info["value_label"].config(bg=bg_color, fg=fg_color)
+                    else:
+                        line_frame = self._create_info_line(
+                            content_frame, key, value, is_error
+                        )
+                        section["widgets"][key] = line_frame
+
+            for key in existing_keys - new_keys:
+                if key in section["widgets"]:
+                    widget_info = section["widgets"][key]
+                    if "frame" in widget_info:
+                        widget_info["frame"].destroy()
+                    del section["widgets"][key]
+
+        else:
+
+            simple_key = "_simple_value_"
+            new_keys.add(simple_key)
+
+            if simple_key in section["widgets"]:
+
+                section["widgets"][simple_key]["value_label"].config(
+                    text=str(data) if data else "N/A"
+                )
+            else:
+
+                label = tk.Label(
+                    content_frame,
+                    text=str(data) if data else "N/A",
+                    bg="#ffffff",
+                    fg="#333333",
+                    font=("Epunda Sans", 10),
+                    wraplength=800,
+                )
+                label.pack(fill=tk.X, pady=2)
+                section["widgets"][simple_key] = {
+                    "frame": label,
+                    "value_label": label,
+                    "key_label": None,
+                }
+
+            for key in existing_keys - new_keys:
+                if key in section["widgets"]:
+                    widget_info = section["widgets"][key]
+                    if "frame" in widget_info:
+                        widget_info["frame"].destroy()
+                    del section["widgets"][key]
+
+    def _update_dict_content(self, parent_frame, data_dict, widget_info):
+        existing_keys = set(widget_info["items"].keys())
+        new_keys = set(data_dict.keys())
+
+        for k, v in data_dict.items():
+            is_error = "Erreur" in k
+            if k in widget_info["items"]:
+                item = widget_info["items"][k]
+                item["value_label"].config(text=str(v))
+
+                bg_color = "#ffecec" if is_error else "#f9f9f9"
+                fg_color = "#c0392b" if is_error else "#333333"
+                key_color = "#c0392b" if is_error else "#1abc9c"
+
+                item["frame"].config(bg=bg_color)
+                if item["key_label"]:
+                    item["key_label"].config(bg=bg_color, fg=key_color)
+                item["value_label"].config(bg=bg_color, fg=fg_color)
+            else:
+                line_frame = self._create_info_line(parent_frame, k, v, is_error)
+                widget_info["items"][k] = line_frame
+
+        for k in existing_keys - new_keys:
+            widget_info["items"][k]["frame"].destroy()
+            del widget_info["items"][k]
+
+    def _update_list_content(self, parent_frame, data_list, widget_info):
+
+        existing_count = len(widget_info["items"])
+        new_count = len(data_list)
+
+        if existing_count != new_count:
+
+            for item in widget_info["items"]:
+                if "frame" in item:
+                    item["frame"].destroy()
+            widget_info["items"].clear()
+
+            for item in data_list:
+                if isinstance(item, dict):
+                    item_frame = tk.Frame(
+                        parent_frame, bg="#ffffff", relief=tk.SOLID, borderwidth=1
+                    )
+                    item_frame.pack(fill=tk.X, padx=5, pady=2)
+
+                    item_widgets = {}
+                    for k, v in item.items():
+                        if k != "CPU":
+                            line = self._create_info_line(item_frame, k, v, False)
+                            item_widgets[k] = line
+
+                    widget_info["items"].append(
+                        {"frame": item_frame, "widgets": item_widgets}
+                    )
+                else:
+                    line = self._create_info_line(parent_frame, "", item, False)
+                    widget_info["items"].append(line)
+        else:
+
+            for i, item in enumerate(data_list):
+                if isinstance(item, dict) and i < len(widget_info["items"]):
+                    item_info = widget_info["items"][i]
+                    if "widgets" in item_info:
+                        for k, v in item.items():
+                            if k != "CPU" and k in item_info["widgets"]:
+                                item_info["widgets"][k]["value_label"].config(
+                                    text=str(v)
+                                )
+
+    def _create_info_line(self, parent, key, value, is_error=False):
         bg_color = "#ffecec" if is_error else "#ffffff"
         fg_color = "#c0392b" if is_error else "#333333"
         key_color = "#c0392b" if is_error else "#1abc9c"
@@ -138,6 +346,7 @@ class SystemDashboard:
         line_frame = tk.Frame(parent, bg=bg_color)
         line_frame.pack(fill=tk.X, pady=2)
 
+        key_label = None
         if key:
             key_label = tk.Label(
                 line_frame,
@@ -160,78 +369,7 @@ class SystemDashboard:
         )
         value_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-        return line_frame
-
-    def update_section(self, section_name, data):
-        self.clear_section(section_name)
-        section = self.sections[section_name]
-        content_frame = section["content"]
-
-        if isinstance(data, dict):
-            for key, value in data.items():
-                is_error = "Erreur" in key or "erreur" in str(value).lower()
-
-                if isinstance(value, dict):
-                    sub_frame = tk.Frame(
-                        content_frame, bg="#f9f9f9", relief=tk.GROOVE, borderwidth=1
-                    )
-                    sub_frame.pack(fill=tk.X, pady=5)
-                    section["widgets"].append(sub_frame)
-
-                    sub_header = tk.Label(
-                        sub_frame,
-                        text=key,
-                        bg="#e8f5f2",
-                        fg="#1abc9c",
-                        font=("Epunda Sans", 10, "bold"),
-                    )
-                    sub_header.pack(fill=tk.X, padx=5, pady=2)
-
-                    for k, v in value.items():
-                        self.add_info_line(sub_frame, k, v, "Erreur" in k)
-
-                elif isinstance(value, list):
-                    sub_frame = tk.Frame(
-                        content_frame, bg="#f9f9f9", relief=tk.GROOVE, borderwidth=1
-                    )
-                    sub_frame.pack(fill=tk.X, pady=5)
-                    section["widgets"].append(sub_frame)
-
-                    sub_header = tk.Label(
-                        sub_frame,
-                        text=key,
-                        bg="#e8f5f2",
-                        fg="#1abc9c",
-                        font=("Epunda Sans", 10, "bold"),
-                    )
-                    sub_header.pack(fill=tk.X, padx=5, pady=2)
-
-                    for item in value:
-                        if isinstance(item, dict):
-                            item_frame = tk.Frame(
-                                sub_frame, bg="#ffffff", relief=tk.SOLID, borderwidth=1
-                            )
-                            item_frame.pack(fill=tk.X, padx=5, pady=2)
-
-                            for k, v in item.items():
-                                if k != "CPU":
-                                    self.add_info_line(item_frame, k, v, False)
-                        else:
-                            self.add_info_line(sub_frame, "", item, False)
-                else:
-                    widget = self.add_info_line(content_frame, key, value, is_error)
-                    section["widgets"].append(widget)
-        else:
-            label = tk.Label(
-                content_frame,
-                text=str(data),
-                bg="#ffffff",
-                fg="#333333",
-                font=("Epunda Sans", 10),
-                wraplength=800,
-            )
-            label.pack(fill=tk.X, pady=2)
-            section["widgets"].append(label)
+        return {"frame": line_frame, "key_label": key_label, "value_label": value_label}
 
     def collect_all_metrics(self):
         metrics = {}
@@ -285,10 +423,10 @@ class SystemDashboard:
         while self.running:
             try:
                 self.root.after(0, self.update_display)
-                time.sleep(10)
+                time.sleep(2)
             except Exception as e:
                 print(f"Erreur dans la boucle de rafraîchissement: {e}")
-                time.sleep(10)
+                time.sleep(2)
 
 
 def launch_gui():
