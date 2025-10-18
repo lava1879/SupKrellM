@@ -39,11 +39,11 @@ Les autres systèmes d'exploitation (par example, Windows) ne sont pas pris en c
 
 Cette application Python collecte les métriques du système Linux et les présente soit sous forme de **rapport HTML statique**, soit sous forme de **tableau de bord graphique en temps réel**.
 
-## Collecte des métriques
+### Collecte des métriques
 
 L’application lit directement les informations du système depuis les répertoires `/proc` et `/sys` de Linux — des répertoires spéciaux exposant les données du noyau sous forme de fichiers texte.
 
-### Modules de métriques individuels
+#### Modules de métriques individuels
 
 * **system.py:** Lit `/proc/sys/kernel/hostname`, `/proc/version` et `/proc/uptime` pour obtenir le nom d’hôte, la version du noyau et le temps de fonctionnement (uptime).
 * **memory.py:** Analyse `/proc/meminfo` pour extraire les statistiques d’utilisation de la RAM et de la mémoire swap.
@@ -53,11 +53,11 @@ L’application lit directement les informations du système depuis les réperto
 * **hardware.py:** Vérifie `/sys/class/thermal/thermal_zone*/temp` pour les températures et `/sys/class/power_supply/*` pour l’état de la batterie.
 * **webservices.py:** Établit des connexions HTTP vers des hôtes spécifiés (par défaut : localhost:80 et localhost:443) et extrait les codes d’état, les en-têtes du serveur et les titres des pages.
 
-## Flux de données
+### Flux de données
 
 **main.py** → `collect_metrics()` appelle chaque module de métriques → retourne un dictionnaire du type `{"system": {...}, "memory": {...}, ...}` → transmis à **generator.py**
 
-## Génération du rapport HTML
+### Génération du rapport HTML
 
 **generator.py:**
 
@@ -69,7 +69,7 @@ L’application lit directement les informations du système depuis les réperto
 6. Écrit le fichier HTML final à l’emplacement spécifié (par défaut: `rapport.html`, possible de changer en utilisant l'argument --output)
 7. Le fichier HTML fait référence à `css/main.css` (qui doit se trouver dans un dossier `css/` relatif au fichier HTML)
 
-## Tableau de bord graphique en direct
+### Tableau de bord graphique en direct
 
 **dashboard.py:**
 
@@ -81,3 +81,7 @@ L’application lit directement les informations du système depuis les réperto
 * Utilise les mêmes modules de métriques que le générateur HTML, offrant ainsi une surveillance en temps réel
 
 Les deux modes de sortie utilisent **les mêmes sources de données**, seule leur présentation diffère (HTML statique vs interface graphique dynamique).
+
+## Objectif du projet
+
+L’objectif principal est de fournir un **outil simple, autonome et éducatif**, permettant d’explorer les mécanismes internes de Linux tout en pratiquant la programmation système en Python.
