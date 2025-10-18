@@ -13,8 +13,8 @@ def get_network_info():
             rx_bytes = int(fields[0])
             tx_bytes = int(fields[8])
             info[iface] = {
-                "Reçus (Mo)": f"{rx_bytes / (1024**2):.2f}",
-                "Envoyés (Mo)": f"{tx_bytes / (1024**2):.2f}"
+                "Reçus (Mio)": f"{rx_bytes / (1024**2):.2f}",
+                "Envoyés (Mio)": f"{tx_bytes / (1024**2):.2f}"
             }
     except Exception as e:
         info["Erreur"] = str(e)
