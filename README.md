@@ -66,7 +66,7 @@ L’application lit directement les informations du système depuis les réperto
 3. Charge **report/template.html**
 4. Remplace le champ `{content}` par les sections HTML générées
 5. Remplace `{date}` par l’horodatage actuel
-6. Écrit le fichier HTML final à l’emplacement spécifié (par défaut : `rapport.html`)
+6. Écrit le fichier HTML final à l’emplacement spécifié (par défaut: `rapport.html`, possible de changer en utilisant l'argument --output)
 7. Le fichier HTML fait référence à `css/main.css` (qui doit se trouver dans un dossier `css/` relatif au fichier HTML)
 
 ## Tableau de bord graphique en direct
