@@ -87,9 +87,13 @@ ul ul {
 }
 
 .error,
-li:has(> strong:contains("Erreur")) {
+li.error {
     background-color: #ffecec;
     border-left: 3px solid #e74c3c;
+    color: #c0392b;
+}
+
+li.error strong {
     color: #c0392b;
 }
 

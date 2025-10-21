@@ -6,23 +6,33 @@ def _dict_to_html(title, data):
     html = f"<h2>{title}</h2>\n<ul>"
     if isinstance(data, dict):
         for k, v in data.items():
+            is_error = "Erreur" in k or "erreur" in k.lower()
+            error_class = ' class="error"' if is_error else ''
+            
             if isinstance(v, dict):
-                html += f"<li><strong>{k}:</strong><ul>"
+                html += f"<li{error_class}><strong>{k}:</strong><ul>"
                 for kk, vv in v.items():
-                    html += f"<li><strong>{kk}:</strong> {vv}</li>"
+                    is_sub_error = "Erreur" in kk or "erreur" in str(vv).lower()
+                    sub_error_class = ' class="error"' if is_sub_error else ''
+                    html += f"<li{sub_error_class}><strong>{kk}:</strong> {vv}</li>"
                 html += "</ul></li>"
             elif isinstance(v, list):
-                html += f"<li><strong>{k}:</strong><ul>"
+                html += f"<li{error_class}><strong>{k}:</strong><ul>"
                 for item in v:
                     if isinstance(item, dict):
-                        html += "<li>"
+                        item_has_error = any("Erreur" in str(val) or "erreur" in str(val).lower() for val in item.values())
+                        item_error_class = ' class="error"' if item_has_error else ''
+                        html += f"<li{item_error_class}>"
                         html += ", ".join(f"{ik}: {iv}" for ik, iv in item.items())
                         html += "</li>"
                     else:
                         html += f"<li>{item}</li>"
                 html += "</ul></li>"
             else:
-                html += f"<li><strong>{k}:</strong> {v}</li>"
+                v_is_error = "erreur" in str(v).lower()
+                if v_is_error and not is_error:
+                    error_class = ' class="error"'
+                html += f"<li{error_class}><strong>{k}:</strong> {v}</li>"
     else:
         html += f"<li>{data}</li>"
     html += "</ul>"
