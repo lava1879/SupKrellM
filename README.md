@@ -22,7 +22,8 @@ Les autres systèmes d'exploitation (par example, Windows) ne sont pas pris en c
 ## Arguments de la ligne de commande
  Argument|Fonctionnalité
 ----|----
---metrics|Liste des métriques à inclure (system, hardware, memory, disk, process, network, webservices ou all).
+--h, -help|Afficher un message d'aide et quitter.
+--metrics|Liste des métriques à inclure (system, hardware, memory, disk, process, network, webservices ou all). <br /> Prend en charge plusieurs métriques, par exemple : `python3 main.py --metrics system + hardware`
 --output|Nom du fichier HTML de sortie (par défaut: rapport.html)
 --dest|Dossier de destination (par défaut: répertoire courant)
 --gui|Lance le mode interface graphique en temps réel
