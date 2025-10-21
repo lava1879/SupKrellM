@@ -1,173 +1,169 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: "Epunda Sans", sans-serif;
-    background-color: #f4f6f8;
-    color: #333;
-    line-height: 1.6;
+  font-family: "Epunda Sans", sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
 }
 
 .date {
-    display: flex;
-    justify-content: center;
-    margin: 10px;
-    font-size: 1.5em;
-
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  font-size: 1.5em;
 }
 
 h1 {
-    text-align: center;
-    background-color: #2c3e50;
-    color: #fff;
-    padding: 20px;
-    margin: 0;
-    border-bottom: 4px solid #1abc9c;
-    font-size: 2em;
+  text-align: center;
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px;
+  margin: 0;
+  border-bottom: 4px solid #1abc9c;
+  font-size: 2em;
 }
 
 h2 {
-    background-color: #1abc9c;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 4px;
-    margin: 30px 0 10px;
-    font-size: 1.3em;  
-    text-align: center;
-
+  background-color: #1abc9c;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin: 30px 0 10px;
+  font-size: 1.3em;
+  text-align: center;
 }
 
 body > ul,
 body > div,
 .content {
-    max-width: 1000px;
-    margin: 20px auto;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 25px 35px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  max-width: 1000px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 25px 35px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 ul {
-    list-style-type: none;
-    padding-left: 15px;
+  list-style-type: none;
+  padding-left: 15px;
 }
 
 li {
-    margin: 5px 0;
-    padding: 6px 10px;
-    border-left: 3px solid transparent;
-    transition: all 0.2s ease-in-out;
+  margin: 5px 0;
+  padding: 6px 10px;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease-in-out;
 }
 
 li:hover {
-    background-color: #f9f9f9;
-    border-left: 3px solid #1abc9c;
+  background-color: #f9f9f9;
+  border-left: 3px solid #1abc9c;
 }
 
 strong {
-    color: #1abc9c;
+  color: #1abc9c;
 }
 
 code,
 pre {
-    background-color: #ecf0f1;
-    padding: 3px 6px;
-    border-radius: 3px;
-    font-family: monospace;
+  background-color: #ecf0f1;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-family: monospace;
 }
 
 ul ul {
-    margin-left: 20px;
-    border-left: 2px dashed #ccc;
-    padding-left: 15px;
+  margin-left: 20px;
+  border-left: 2px dashed #ccc;
+  padding-left: 15px;
 }
 
 .error,
 li.error {
-    background-color: #ffecec;
-    border-left: 3px solid #e74c3c;
-    color: #c0392b;
+  background-color: #ffecec;
+  border-left: 3px solid #e74c3c;
+  color: #c0392b;
 }
 
 li.error strong {
-    color: #c0392b;
+  color: #c0392b;
 }
 
 footer {
-    text-align: center;
-    margin: 40px 0 10px;
-    font-size: 0.9em;
-    color: #777;
+  text-align: center;
+  margin: 40px 0 10px;
+  font-size: 0.9em;
+  color: #777;
 }
 
 @media (max-width: 900px) {
-    body > ul,
-    body > div,
-    .content {
-        max-width: 90%;
-        padding: 20px;
-    }
+  body > ul,
+  body > div,
+  .content {
+    max-width: 90%;
+    padding: 20px;
+  }
 
-    h1 {
-        font-size: 1.8em;
-        padding: 18px;
-    }
+  h1 {
+    font-size: 1.8em;
+    padding: 18px;
+  }
 
-    h2 {
-        font-size: 1.2em;
-        padding: 8px 12px;
-    }
-
+  h2 {
+    font-size: 1.2em;
+    padding: 8px 12px;
+  }
 }
 
 @media (max-width: 600px) {
-    body > ul,
-    body > div,
-    .content {
-        width: 95%;
-        padding: 15px;
-    }
+  body > ul,
+  body > div,
+  .content {
+    width: 95%;
+    padding: 15px;
+  }
 
-    .texte {
-        font-size: 1.5em;
-        text-align: center;
-        flex-direction: column;
-    }
+  .texte {
+    font-size: 1.5em;
+    text-align: center;
+    flex-direction: column;
+  }
 
-    h1 {
-        font-size: 1.4em;
-        padding: 15px;
-    }
+  h1 {
+    font-size: 1.4em;
+    padding: 15px;
+  }
 
-    h2 {
-        font-size: 1em;
-        margin: 20px 0 8px;
-    }
+  h2 {
+    font-size: 1em;
+    margin: 20px 0 8px;
+  }
 
-    li {
-        padding: 5px 8px;
-    }
+  li {
+    padding: 5px 8px;
+  }
 }
 
 @media (max-width: 400px) {
-    h1 {
-        font-size: 1.2em;
-    }
+  h1 {
+    font-size: 1.2em;
+  }
 
-    h2 {
-        font-size: 0.9em;
-    }
+  h2 {
+    font-size: 0.9em;
+  }
 
-    body > ul,
-    body > div,
-    .content {
-        width: 100%;
-        padding: 12px;
-        border-radius: 0;
-    }
-
+  body > ul,
+  body > div,
+  .content {
+    width: 100%;
+    padding: 12px;
+    border-radius: 0;
+  }
 }
