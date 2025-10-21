@@ -8,7 +8,7 @@
 
 ## Télécharger 
 
-[Télécharger le programme](https://github.com/lava1879/projet-semestriel1-supinfo/releases/download/v0.1.0-alpha/SupKrellM-v0.1.0-alpha.zip)
+[Télécharger le programme](https://github.com/lava1879/projet-semestriel1-supinfo/releases/download/v1.0.0/SupKrellM-v1.0.0.zip)
 
 ## Configuration matérielle requise
  | Configuration matérielle minimale|Recommendée
