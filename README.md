@@ -76,7 +76,7 @@ L’application lit directement les informations du système depuis les réperto
 
 * Crée une fenêtre Tkinter avec des sections défilantes
 * Lance un thread en arrière-plan exécutant `refresh_loop()`
-* Toutes les 10 secondes, appelle les collecteurs de métriques via `collect_all_metrics()`
+* Toutes les 2 secondes, appelle les collecteurs de métriques via `collect_all_metrics()`
 * Met à jour chaque section du tableau de bord en détruisant les anciens widgets et en créant de nouvelles étiquettes avec les données actuelles
 * Code en rouge (`#ffecec`) les erreurs et en blanc les données normales
 * Utilise les mêmes modules de métriques que le générateur HTML, offrant ainsi une surveillance en temps réel
