@@ -55,7 +55,7 @@ def generate_html_report(selected_metrics, output_path):
     try:
         template = template_path.read_text(encoding="utf-8")
     except Exception:
-        template = "<html><body><h1>Rapport système</h1>{content}</body></html>"
+        template = "<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'><link rel='stylesheet' href='css/main.css'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Epunda+Sans:wght@500&display=swap' rel='stylesheet'><title>Rapport Système</title></head><body><h1>Rapport Système</h1><p class='date'>Généré le {date}</p><hr>{content}</body></html>"
 
     html_sections = ""
     for key, value in data.items():
