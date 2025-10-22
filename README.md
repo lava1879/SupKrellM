@@ -8,7 +8,7 @@
 
 ## Télécharger 
 
-[Télécharger le programme](https://github.com/lava1879/projet-semestriel1-supinfo/releases/download/v1.0.0/SupKrellM-v1.0.0.zip)
+[Télécharger le programme](https://github.com/lava1879/SupKrellM/releases/download/v1.0.0/SupKrellM-v1.0.0.zip)
 
 ## Configuration matérielle requise
  | Configuration matérielle minimale|Recommendée
@@ -34,7 +34,7 @@ Disque (Stockage)|5 Mo vide|100 Mo vide
 
 ## Installation
 
-1. Obtenez le code source soit en [téléchargeant le zip](https://github.com/lava1879/projet-semestriel1-supinfo/archive/main.zip), soit en faisant `git clone https://github.com/lava1879/projet-semestriel1-supinfo`.
+1. Obtenez le code source soit en [téléchargeant le zip](https://github.com/lava1879/SupKrellM/archive/main.zip), soit en faisant `git clone https://github.com/lava1879/SupKrellM`.
 1. Ouvrez le dossier contenant le code source (ou extraire le zip téléchargé et ouvrer le dossier), puis ouvrez le répertoire du programme dans un terminal.
 1. Tapez dans le terminal `python3 main.py` pour exécuter le programme et générer la page HTML contenant le rapport système (situé par défaut à la racine du répertoire).
 
