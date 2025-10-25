@@ -52,7 +52,7 @@ def generate_html_report(selected_metrics, output_path):
             data["Mémoire"] = memory.get_memory_info()
         if "process" in selected_metrics or "all" in selected_metrics:
             data["CPU"] = process.get_cpu_info()
-            data["Processus"] = process.get_process_list()
+            data["Processus (Top 5)"] = process.get_process_list()
         if "network" in selected_metrics or "all" in selected_metrics:
             data["Réseau"] = network.get_network_info()
             data["Passerelle par défaut"] = network.get_default_gateway()

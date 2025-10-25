@@ -2,6 +2,7 @@ from pathlib import Path
 import time
 import pwd
 
+
 def _read_cpu_times():
     try:
         line = Path("/proc/stat").read_text().splitlines()[0]
@@ -55,11 +56,17 @@ def _read_process_stat(pid):
         name = Path(f"/proc/{pid}/comm").read_text().strip()
         utime = int(values[13])
         stime = int(values[14])
-        rss = int(values[23]) * 4096 / (1024 ** 2)
+        rss = int(values[23]) * 4096 / (1024**2)
         rss_str = f"{rss:.2f} Mio"
         uid = Path(f"/proc/{pid}/status").read_text().split("Uid:")[1].split()[0]
         user = pwd.getpwuid(int(uid)).pw_name
-        return {"PID": pid, "Utilisateur": user, "Nom": name, "Utilisation mémoire": rss_str, "CPU": utime + stime}
+        return {
+            "PID": pid,
+            "Utilisateur": user,
+            "Nom": name,
+            "Utilisation mémoire": rss_str,
+            "CPU": utime + stime,
+        }
     except Exception:
         return None
 
@@ -73,4 +80,13 @@ def get_process_list(limit=5):
                 processes.append(pinfo)
 
     processes.sort(key=lambda p: p["CPU"], reverse=True)
-    return processes[:limit] if processes else [{"Erreur": "Aucun processus lisible"}]
+
+    result = {}
+    for i, proc in enumerate(processes[:limit], 1):
+        proc_dict = {}
+        for key, value in proc.items():
+            if key != "CPU":
+                proc_dict[key] = value
+        result[f"Processus {i}"] = proc_dict
+
+    return result if result else {"Erreur": "Aucun processus lisible"}
