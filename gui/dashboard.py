@@ -24,7 +24,7 @@ class SystemDashboard:
 
         style.configure(
             "Section.TLabel",
-            background="#1abc9c",
+            background="#CD2C58",
             foreground="#ffffff",
             font=("Epunda Sans", 12, "bold"),
             padding=5,
@@ -38,7 +38,7 @@ class SystemDashboard:
         header_label = tk.Label(
             header_frame,
             text="Rapport Système - Temps Réel",
-            bg="#2c3e50",
+            bg="#333333",
             fg="#ffffff",
             font=("Epunda Sans", 18, "bold"),
         )
