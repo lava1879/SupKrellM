@@ -31,7 +31,7 @@ class SystemDashboard:
         )
 
     def create_widgets(self):
-        header_frame = tk.Frame(self.root, bg="#2c3e50", height=60)
+        header_frame = tk.Frame(self.root, bg="#333333", height=60)
         header_frame.pack(fill=tk.X, side=tk.TOP)
         header_frame.pack_propagate(False)
 
@@ -114,7 +114,7 @@ class SystemDashboard:
         header = tk.Label(
             section_frame,
             text=title,
-            bg="#1abc9c",
+            bg="#CD2C58",
             fg="#ffffff",
             font=("Epunda Sans", 12, "bold"),
             anchor="center",
@@ -163,7 +163,7 @@ class SystemDashboard:
                             sub_frame,
                             text=key,
                             bg="#e8f5f2",
-                            fg="#1abc9c",
+                            fg="#CD2C58",
                             font=("Epunda Sans", 10, "bold"),
                         )
                         sub_header.pack(fill=tk.X, padx=5, pady=2)
@@ -194,7 +194,7 @@ class SystemDashboard:
                             sub_frame,
                             text=key,
                             bg="#e8f5f2",
-                            fg="#1abc9c",
+                            fg="#CD2C58",
                             font=("Epunda Sans", 10, "bold"),
                         )
                         sub_header.pack(fill=tk.X, padx=5, pady=2)
@@ -216,7 +216,7 @@ class SystemDashboard:
 
                         bg_color = "#ffecec" if is_error else "#ffffff"
                         fg_color = "#c0392b" if is_error else "#333333"
-                        key_color = "#c0392b" if is_error else "#1abc9c"
+                        key_color = "#c0392b" if is_error else "#CD2C58"
 
                         widget_info["frame"].config(bg=bg_color)
                         if widget_info["key_label"]:
@@ -281,7 +281,7 @@ class SystemDashboard:
 
                 bg_color = "#ffecec" if is_error else "#f9f9f9"
                 fg_color = "#c0392b" if is_error else "#333333"
-                key_color = "#c0392b" if is_error else "#1abc9c"
+                key_color = "#c0392b" if is_error else "#CD2C58"
 
                 item["frame"].config(bg=bg_color)
                 if item["key_label"]:
@@ -341,7 +341,7 @@ class SystemDashboard:
     def _create_info_line(self, parent, key, value, is_error=False):
         bg_color = "#ffecec" if is_error else "#ffffff"
         fg_color = "#c0392b" if is_error else "#333333"
-        key_color = "#c0392b" if is_error else "#1abc9c"
+        key_color = "#c0392b" if is_error else "#CD2C58"
 
         line_frame = tk.Frame(parent, bg=bg_color)
         line_frame.pack(fill=tk.X, pady=2)
