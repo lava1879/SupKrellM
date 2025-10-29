@@ -423,10 +423,10 @@ class SystemDashboard:
         while self.running:
             try:
                 self.root.after(0, self.update_display)
-                time.sleep(2)
+                time.sleep(1)
             except Exception as e:
                 print(f"Erreur dans la boucle de rafraîchissement: {e}")
-                time.sleep(2)
+                time.sleep(1)
 
 
 def launch_gui():
